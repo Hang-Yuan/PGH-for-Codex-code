@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.log
+*.tmp
+
+# Keep template files tracked, but ignore local runtime dumps.
+assistant/**/_local/
+assistant/**/.obsidian/
+agent_bus/**/_local/
