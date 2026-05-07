@@ -1,39 +1,39 @@
 ---
 name: week-sync
-description: Startup synchronization for current week, recent work, and continuity checks.
+description: 会话启动时同步本周状态、近期进展和接续断点。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # week-sync
 
-Use during startup after the required files have been read.
+启动序列读完必须层后调用。
 
-## Two Modes
+## 两档模式
 
-| Day | Mode | Scope |
+| 时间 | 模式 | 范围 |
 |---|---|---|
-| Monday-Thursday | light sync | current week tasks, recent progress, active blockers |
-| Friday-Sunday | deep sync | current week tasks, diff against progress records, review readiness |
+| 周一至周四 | 轻量同步 | 本周任务、最近进展、活跃阻塞 |
+| 周五至周日 | 深度同步 | 本周任务、项目推进差异、周复盘准备度 |
 
-## Workflow
+## 流程
 
-1. Read `<ASSISTANT_ROOT>/00 专注区/_本周.md`.
-2. Check whether active tasks still match recent project progress.
-3. Read only the project overview/progress files needed for currently active tasks.
-4. If today is Friday-Sunday, check whether weekly-review has enough material:
-   - completed outputs
-   - unresolved questions
-   - memory candidates
-   - archive needs
-5. Report the current breakpoint in ordinary language.
+1. 读 `<ASSISTANT_ROOT>/00 专注区/_本周.md`。
+2. 检查活跃任务是否仍和最近项目进展一致。
+3. 只读取当前任务需要的项目 overview / progress 文件。
+4. 周五至周日额外检查周复盘材料是否足够：
+   - 已完成产出
+   - 未决问题
+   - 记忆候选
+   - 归档需求
+5. 用自然语言汇报当前断点。
 
-## Continuity Check
+## 接续检查
 
-If the current user request clearly continues an unfinished item, load that item's project chain before answering.
+如果用户请求明显延续未完成事项，先加载对应项目链再回答。
 
-## Boundaries
+## 不做
 
-- Do not run a full weekly review unless asked or scheduled.
-- Do not rewrite `_本周.md` during startup without user authorization.
-- Do not scan the entire assistant root by default.
+- 不主动跑完整周复盘。
+- 未授权不改 `_本周.md`。
+- 不默认扫描整个知识库。

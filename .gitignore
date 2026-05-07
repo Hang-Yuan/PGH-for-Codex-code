@@ -5,7 +5,6 @@ Thumbs.db
 *.log
 *.tmp
 
-# Keep template files tracked, but ignore local runtime dumps.
+# 保留模板文件；忽略本地运行临时区。
 assistant/**/_local/
 assistant/**/.obsidian/
-agent_bus/**/_local/

@@ -1,13 +1,13 @@
 ---
-title: cognition
-type: user-subfile
-created: 2026-05-07
-status: template
-upstream:
+标题: cognition
+类型: 用户子文件
+创建日期: 2026-05-07
+状态: 模板
+上游:
   - USER.md
-downstream: []
+下游: []
 ---
 
-# Cognition
+# 认知方式
 
-Add stable reasoning, learning, or attention patterns here only after confirmation.
+只在确认后写入稳定思维、学习、注意力和推理模式。

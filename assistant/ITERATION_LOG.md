@@ -1,50 +1,71 @@
 ---
-title: ITERATION_LOG
-type: iteration-log
-created: 2026-05-07
-status: active
-upstream:
+标题: ITERATION_LOG
+类型: 迭代日志
+创建日期: 2026-05-07
+状态: 活动
+上游:
   - .codex/AGENTS.md
-downstream: []
+下游: []
 ---
 
 # ITERATION_LOG
 
-Architecture, protocol, skill, and file-structure changes go here. Memory metabolism belongs in `MEMORY/MEMORY_LOG.md`.
+架构、协议、技能、文件结构变化写在这里。记忆代谢写入 `MEMORY/MEMORY_LOG.md`。
 
-## Entry Template
+## 条目模板
 
 ```markdown
-## vX.Y.Z · YYYY-MM-DD · Title
+## vX.Y.Z · YYYY-MM-DD · 标题
 
-### Summary
+### 摘要
 
-### Details
+### 详情
 
-### Impact
+### 影响
 
-### Sync Notes
+### 同步建议
 ```
 
 ---
 
-## v0.1.0 · 2026-05-07 · initial public Codex harness template
+## v0.1.1 · 2026-05-07 · 单端化 + 全中文模板
 
-### Summary
+### 摘要
 
-Initial public template for a Codex-native predictive memory and workflow harness.
+Codex 公共模板改为单端自用结构，并完成中文化。
 
-### Details
+### 详情
 
-- Added `.codex/AGENTS.md`.
-- Added public skill set: close-node, create-project, daily-review, manage-research-reference, new-file, week-sync, weekly-review, write-progress.
-- Added assistant knowledge-base skeleton with v5 default-forget memory layers.
-- Added optional append-only agent bus skeleton.
+- 删除跨端通信目录。
+- 删除额外 agent 占位区。
+- README、AGENTS、skills、assistant 骨架统一中文口径。
+- 安装占位符只保留 `<ASSISTANT_ROOT>`。
 
-### Impact
+### 影响
 
-Users can install this as a fresh Codex workspace harness, then customize persona, USER, project structure, and memory parameters.
+使用者只需要 Codex 和本地 assistant 知识库即可运行本模板。
 
-### Sync Notes
+### 同步建议
 
-Replace `<ASSISTANT_ROOT>` and `<AGENT_BUS_ROOT>` before installation.
+旧版用户可直接删除跨端通信目录，并替换 `.codex/AGENTS.md` 与 `.codex/skills/`。
+
+## v0.1.0 · 2026-05-07 · 初版 Codex 公共模板
+
+### 摘要
+
+建立 Codex 原生的预测性记忆和项目工作流模板。
+
+### 详情
+
+- 新增 `.codex/AGENTS.md`。
+- 新增八个技能：close-node、create-project、daily-review、manage-research-reference、new-file、week-sync、weekly-review、write-progress。
+- 新增 assistant 知识库骨架。
+- 新增 v5 默认遗忘记忆层。
+
+### 影响
+
+使用者可以基于本模板建立自己的 Codex 长期工作系统。
+
+### 同步建议
+
+安装前替换 `<ASSISTANT_ROOT>`。

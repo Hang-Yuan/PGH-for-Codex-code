@@ -1,17 +1,17 @@
 ---
-title: episodic_inbox
-type: memory-inbox
-created: 2026-05-07
-status: active
-upstream:
+标题: episodic_inbox
+类型: 情景收件箱
+创建日期: 2026-05-07
+状态: 活动
+上游:
   - 00.memory_agent.md
-downstream:
+下游:
   - episodic_memory.md
 ---
 
 # episodic_inbox
 
-Fresh calibration signals. Keep rows short. Daily review consumes or expires them.
+新鲜校准信号收件箱。只写短行。日复盘负责消耗或过期处理。
 
-| ID | Time | Source | P | C | Type | Schema Pointer | Signal |
+| ID | 时间 | 来源 | P值 | C值 | 类型 | 模式 指针 | 信号 |
 |---|---|---|---|---|---|---|---|

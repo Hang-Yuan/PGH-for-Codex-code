@@ -1,11 +1,11 @@
 ---
-title: MEMORY_LOG
-type: memory-log
-created: 2026-05-07
-status: active
-upstream:
+标题: MEMORY_LOG
+类型: 记忆日志
+创建日期: 2026-05-07
+状态: 活动
+上游:
   - 00.memory_agent.md
-downstream:
+下游:
   - episodic_inbox.md
   - episodic_memory.md
   - semantic_memory.md
@@ -13,18 +13,18 @@ downstream:
 
 # MEMORY_LOG
 
-Memory metabolism log. Do not write architecture changes here; use `../ITERATION_LOG.md`.
+记忆代谢日志。架构变化不要写这里，写入 `../ITERATION_LOG.md`。
 
-## Log Template
+## 日志模板
 
 ```markdown
-YYYY-MM-DD HH:mm | action | target | reason | evidence
+YYYY-MM-DD HH:mm | 动作 | 对象 | 原因 | 证据
 ```
 
 ## 操作日志
 
-2026-05-07 00:00 | init | template | public Codex harness memory log initialized | v0.1.0
+2026-05-07 00:00 | 初始化 | 模板 | Codex 系统记忆日志初始化 | v0.1.0
 
-## Weekly Review Staging
+## 周复盘暂存
 
-<!-- Signals not strong enough for immediate pool movement but worth weekly review. -->
+<!-- 尚未强到立即入池，但值得周复盘复审的信号。 -->

@@ -1,24 +1,24 @@
 ---
-title: episodic_memory
-type: memory-pool
-created: 2026-05-07
-status: active
-upstream:
+标题: episodic_memory
+类型: 情景记忆池
+创建日期: 2026-05-07
+状态: 活动
+上游:
   - 00.memory_agent.md
   - episodic_inbox.md
-downstream:
+下游:
   - semantic_memory.md
   - MEMORY_LOG.md
 ---
 
 # episodic_memory
 
-1-3 star situational schema candidates. Not loaded at startup by default.
+1-3 星情境级模式 候选。默认不在启动时读取。
 
-## Active Entries
+## 活动条目
 
-<!-- Add EM entries here. -->
+<!-- 在这里添加 EM 条目。 -->
 
-## Archived Pointers
+## 归档指针
 
-<!-- Move stale entries to archive or summarize them here. -->
+<!-- 失效条目移入归档或在这里保留摘要指针。 -->

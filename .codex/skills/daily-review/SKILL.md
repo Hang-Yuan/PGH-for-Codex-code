@@ -1,56 +1,51 @@
 ---
 name: daily-review
-description: End-of-conversation review: close missed nodes, consume inbox signals, update progress, and prepare handoff.
+description: 对话结束整理：闭合遗漏节点、消耗 inbox、更新进展和记忆日志。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # daily-review
 
-Use when the user asks to summarize, hand off, end the day, or close the current conversation.
+当用户要求总结、今天到这里、收束本轮对话时调用。
 
-## Output Rule
+## 输出规则
 
-Speak naturally. Do not print internal step labels unless the user asks for an audit trail.
+自然语言收束，不输出内部步骤标签，除非用户要求审计过程。
 
-## Pre-Write Rule
+## 写入前置规则
 
-Before appending to any log or memory file, read the target file and follow its local template. If the file has no template, append a compact dated entry.
+写任何日志或记忆文件前，先读目标文件，遵守该文件本地模板。没有模板时，追加简洁日期条目。
 
-## Workflow
+## 流程
 
-1. Determine logical date:
-   - current hour < 06:00 -> previous day
-   - otherwise -> current day
-2. Scan the conversation for:
-   - completed work
-   - unresolved questions
-   - missed close-node opportunities
-   - fresh memory calibration signals
-   - project progress that needs a durable record
-3. If a work node closed and was not processed, use `close-node` or draft a handoff package.
-4. Consume `MEMORY/episodic_inbox.md`:
-   - merge duplicates
-   - archive expired low-value items
-   - promote repeated candidates into `episodic_memory.md`
-5. Update `MEMORY/MEMORY_LOG.md` only for memory metabolism.
-6. Update `ITERATION_LOG.md` only for architecture, skill, or protocol changes.
-7. If multi-agent coordination is active, append bus handoff:
-   - what was done
-   - files touched
-   - proposed shared-truth updates
-   - unresolved decisions
-8. Give the user a brief, useful close-out.
+1. 判定逻辑日期：
+   - 当前 hour < 06:00 → 前一日
+   - 否则 → 当日
+2. 回扫本轮对话：
+   - 完成了什么
+   - 还有什么未决
+   - 是否有漏跑 close-node 的节点
+   - 是否有新鲜记忆校准信号
+   - 是否有项目推进需要固化
+3. 已闭合但未处理的节点，调用 `close-node`。
+4. 消耗 `MEMORY/episodic_inbox.md`：
+   - 合并重复项
+   - 归档过期低价值项
+   - 把复现候选升入 `episodic_memory.md`
+5. 仅在记忆代谢发生时写 `MEMORY/MEMORY_LOG.md`。
+6. 仅在架构、技能、协议变化时写 `ITERATION_LOG.md`。
+7. 给用户一个短而清楚的收束：完成项、落盘点、下次断点。
 
-## Memory Policy
+## 记忆边界
 
-- L0 `episodic_inbox`: lightweight, recent, mostly forgotten.
-- L1 `episodic_memory`: 1-3 star candidates.
-- L2 `semantic_memory`: 4-6 star startup schema, normally updated by `weekly-review`.
-- L3 identity: USER / persona / skills, always C-level.
+- L0 `episodic_inbox`：轻量、近期、默认会忘。
+- L1 `episodic_memory`：1-3 星候选。
+- L2 `semantic_memory`：4-6 星启动模式，通常由周复盘更新。
+- L3 身份层：USER / persona / skill，必须明确确认。
 
-## Boundaries
+## 不做
 
-- Do not write identity files during daily-review unless explicitly authorized.
-- Do not produce a full weekly review unless requested or scheduled.
-- Do not duplicate project conclusions already written in a project main document.
+- 不在日复盘里直接改身份层。
+- 不替代周复盘。
+- 不重复写已经进入项目主文档的结论。

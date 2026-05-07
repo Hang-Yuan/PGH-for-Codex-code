@@ -1,30 +1,28 @@
-# Codex Code Harness
+# PGH for Codex Code
 
-A public, customizable persistence harness for Codex-style coding agents. It gives Codex a durable workspace: persona, USER profile, project loading chains, weekly workflow, multi-agent handoff, and a v5 default-forget memory system.
+一个给 Codex / Codex Code 使用的持久化工作系统模板。它把 Codex 的身份、用户档案、项目加载链、周工作流和 v5 默认遗忘记忆架构放进一套可复制的 Markdown 骨架里。
 
-> See [CHANGELOG.md](./CHANGELOG.md) for version history and sync notes.
+> 最新版本见 [CHANGELOG.md](./CHANGELOG.md)。
 
-## What This Is
+## 这是什么
 
-Codex is strong at implementation, review, and local tool use, but a fresh session does not automatically carry a whole personal knowledge system. This harness externalizes that system into Markdown files and Codex skills.
+Codex 很擅长写代码、审查、重构和本地工具调用，但新会话默认不会自动拥有一套长期知识库。这个系统做的是：把长期上下文外置成文件，让 Codex 每次启动时沿加载链读取，需要记录时按 skill 写入。
 
-Core capabilities:
+核心能力：
 
-- **Codex-native startup loading** through `.codex/AGENTS.md`.
-- **v5 default-forget memory**: `episodic_inbox -> episodic_memory -> semantic_memory -> identity`.
-- **Project loading chains**: each durable file declares upstream and downstream pointers.
-- **Weekly work loop**: focus file, project progress, daily review, weekly review.
-- **Optional multi-agent bus** for handoff between Codex and another assistant.
-- **Public-safe template**: no private names, real paths, or personal memory entries.
+- **Codex 原生启动序列**：通过 `.codex/AGENTS.md` 规定启动读取顺序。
+- **v5 默认遗忘记忆架构**：`episodic_inbox -> episodic_memory -> semantic_memory -> 身份层`。
+- **项目加载链**：每个长期文件都写清楚上游、下游和同级联动，避免 Codex 靠硬记目录结构。
+- **周工作循环**：本周任务、项目推进、节点闭合、日复盘、周复盘。
+- **单端自用**：不包含跨端通信层，不预设把内容交给另一个智能体处理。
+- **公开模板**：不含私人姓名、真实路径或个人记忆条目。
 
-## Architecture
+## 目录结构
 
 ```text
 codex-code-harness/
 ├── .codex/
 │   ├── AGENTS.md
-│   ├── agents/
-│   │   └── README.md
 │   └── skills/
 │       ├── close-node/
 │       ├── create-project/
@@ -63,83 +61,81 @@ codex-code-harness/
 │       ├── beliefs.md
 │       ├── cognition.md
 │       └── personality.md
-└── agent_bus/
-    ├── rules.md
-    └── agent_bus.md
+├── CHANGELOG.md
+├── LICENSE
+└── README.md
 ```
 
-## Codex vs Hook-Based Harnesses
+## Codex 版的运行方式
 
-This package does not rely on Claude Code hooks. Codex uses:
+这版不依赖自动钩子。Codex 通过三件事运行：
 
-- `AGENTS.md` for global behavior and startup loading;
-- Codex skills for durable workflows;
-- explicit review flows for memory metabolism;
-- optional bus files for cross-agent handoff.
+1. `.codex/AGENTS.md` 规定全局行为和启动加载。
+2. `.codex/skills/` 承接节点闭合、项目推进、日复盘、周复盘等流程。
+3. `assistant/` 保存长期知识库和记忆候选池。
 
-That means `episodic_inbox.md` is not filled by an automatic per-message hook. Codex is instructed to capture signals during `close-node`, `daily-review`, and explicit memory work.
+因此 `episodic_inbox.md` 不会自动逐消息写入；它由 Codex 在节点闭合、日复盘或明确记忆整理时写入。这样更适合 Codex 当前的使用方式，也更容易部署到公开仓库。
 
-## Memory Model
+## 记忆架构
 
-| Layer | File | Purpose | Startup |
+| 层级 | 文件 | 存什么 | 启动注入 |
 |---|---|---|---|
-| L0 episodic inbox | `assistant/MEMORY/episodic_inbox.md` | fresh calibration signals | no |
-| L1 episodic memory | `assistant/MEMORY/episodic_memory.md` | 1-3 star situational schema | no |
-| L2 semantic memory | `assistant/MEMORY/semantic_memory.md` | 4-6 star startup schema | yes |
-| L3 identity | `assistant/USER`, `assistant/SOUL`, `.codex/skills` | stable identity and procedures | yes / triggered |
+| L0 情景收件箱 | `assistant/MEMORY/episodic_inbox.md` | 新鲜校准信号 | 否 |
+| L1 情景记忆 | `assistant/MEMORY/episodic_memory.md` | 1-3 星情境级模式 | 否 |
+| L2 语义记忆 | `assistant/MEMORY/semantic_memory.md` | 4-6 星启动注入模式 | 是 |
+| L3 身份层 | `assistant/USER`、`assistant/SOUL`、`.codex/skills` | 稳定身份与行为程序 | 是 / 触发时 |
 
-Default action is forgetting. A one-off observation should not become identity. Stable schema must survive review, evidence, and explicit approval before it becomes L3.
+默认动作是遗忘。一次性观察不应直接写成身份层；只有复现、稳定、有证据的模式才能逐级上行。
 
-## Installation
+## 安装
 
-1. Copy `.codex/AGENTS.md` to your Codex global instruction location, usually:
+1. 把 `.codex/AGENTS.md` 复制到 Codex 全局指令位置，通常是：
 
    ```text
    ~/.codex/AGENTS.md
    ```
 
-   You can also adapt it as a project-local `AGENTS.md`.
+   也可以按需要改成项目内 `AGENTS.md`。
 
-2. Copy `.codex/skills/*` into your Codex skills directory:
+2. 把 `.codex/skills/*` 复制到 Codex 技能 目录：
 
    ```text
    ~/.codex/skills/
    ```
 
-3. Put `assistant/` wherever you want your persistent knowledge base to live.
+3. 把 `assistant/` 放到你想保存长期知识库的位置。
 
-4. Replace placeholders in `.codex/AGENTS.md` and all skill files:
+4. 全局搜索并替换占位符：
 
    ```text
-   <ASSISTANT_ROOT>  -> your assistant folder
-   <AGENT_BUS_ROOT>  -> your bus folder, or remove bus references if unused
+   <ASSISTANT_ROOT> -> 你的 assistant 文件夹路径
    ```
 
-5. Customize:
+5. 按自己的情况填写：
 
    - `assistant/USER/USER.md`
    - `assistant/SOUL/persona/persona_SOUL.md`
    - `assistant/长期记忆.md`
    - `assistant/00 专注区/_本周.md`
 
-6. Start a new Codex conversation. The agent should run the startup sequence, load semantic memory, read current focus, and use `week-sync`.
+6. 启动新的 Codex 会话。Codex 应按启动序列读取身份层、USER、语义记忆、当前处境和本周任务。
 
-## Customization
+## 自定义
 
-- Rename the assistant persona in `persona_SOUL.md`.
-- Add USER subfiles if your stable profile grows.
-- Add project templates under `assistant/01 项目区/`.
-- Add specialized Codex skills under `.codex/skills/<skill-name>/SKILL.md`.
-- If your Codex runtime supports persistent agent configs, add them locally and document them in `.codex/agents/README.md`.
+- 在 `persona_SOUL.md` 里定义 Codex 的名字、语气和工作风格。
+- 在 `USER/` 下维护稳定用户档案。
+- 在 `01 项目区/` 下建立持续项目。
+- 在 `.codex/skills/` 下新增自己的工作流 skill。
+- 按需要调整记忆阈值，例如 semantic 启动注入条数、episodic 保留时间、周复盘升降规则。
 
-## Design Principles
+## 设计原则
 
-- **Loading chain over memorization**: files point to the next files Codex should read.
-- **Single authority source**: do not define the same fact in multiple places.
-- **Default forgetting**: low-confidence signals expire unless they recur.
-- **Review before identity**: USER, persona, and skills change only after approval.
-- **Append-only handoff**: cross-agent coordination uses bus entries rather than rewriting another agent's records.
+- **加载链，而不是硬记忆**：文件自己声明上游和下游。
+- **单一权威源**：每条信息只在一个地方定义，其他地方只放摘要和指针。
+- **默认遗忘**：低置信号自然消失，高价值信号复现后才上行。
+- **身份层需确认**：USER、SOUL、skill 的稳定改动必须经过明确授权。
+- **过程与结论分离**：项目主文档放稳定结论，`_progress/` 放推理路径。
 
-## License
+## 许可
 
-MIT. See [LICENSE](./LICENSE).
+MIT。见 [LICENSE](./LICENSE)。

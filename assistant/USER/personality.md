@@ -1,13 +1,13 @@
 ---
-title: personality
-type: user-subfile
-created: 2026-05-07
-status: template
-upstream:
+标题: personality
+类型: 用户子文件
+创建日期: 2026-05-07
+状态: 模板
+上游:
   - USER.md
-downstream: []
+下游: []
 ---
 
-# Personality
+# 人格与互动
 
-Add stable interaction and preference patterns here only after confirmation.
+只在确认后写入稳定互动偏好和人格相关模式。

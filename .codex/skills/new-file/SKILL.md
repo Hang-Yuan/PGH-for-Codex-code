@@ -1,48 +1,49 @@
 ---
 name: new-file
-description: Ensure every new Markdown file under the assistant root has a clear loading chain and ownership boundary.
+description: 新建 Markdown 文件时补齐加载链和权责边界。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # new-file
 
-Use whenever creating a Markdown file under `<ASSISTANT_ROOT>`.
+在 `<ASSISTANT_ROOT>` 下新建 Markdown 文件时调用。
 
-## Goal
+## 目标
 
-Make the new file discoverable. Every durable file should state:
-- who loads it
-- what it governs
-- which sibling files it should be checked with
+让新文件能被重新发现。每个长期文件都应写清：
 
-## Frontmatter Template
+- 谁会加载它
+- 它管辖什么
+- 需要和哪些同级文件一起检查
+
+## frontmatter 模板
 
 ```yaml
 ---
-title: <title>
-type: <area/project/progress/reference/memory/user/persona>
-created: YYYY-MM-DD
-status: active
-upstream:
-  - <file that loads this file>
-downstream:
-  - <files or folders governed by this file>
-peers:
-  - <sibling files to check together>
+标题: <标题>
+类型: <区域 / 项目 / 推进 / 文献 / 记忆 / 用户 / 人格层>
+创建日期: YYYY-MM-DD
+状态: 进行中
+上游:
+  - <加载本文件的文件>
+下游:
+  - <本文件管辖的文件或文件夹>
+同级联动:
+  - <需要一起检查的文件>
 ---
 ```
 
-## Workflow
+## 流程
 
-1. Identify the parent area or project.
-2. Add frontmatter with upstream, downstream, and peers.
-3. Add a short `## 加载链` section if frontmatter is not enough.
-4. Update the parent index, `_overview.md`, or area agent only when this file should be discoverable from there.
-5. If the file is temporary or scratch-only, mark it as temporary and do not add it to durable loading chains.
+1. 判断新文件属于哪个区域或项目。
+2. 补 frontmatter：上游、下游、同级联动。
+3. frontmatter 不够时，加 `## 加载链` 节。
+4. 需要被发现时，更新父级索引、`_overview.md` 或区域 agent。
+5. 临时草稿标为临时，不接入长期加载链。
 
-## Boundaries
+## 不做
 
-- This skill does not decide whether a file should exist.
-- Do not add broad pointers that make every file load every other file.
-- Do not write identity facts into a new file unless the user authorized identity-layer changes.
+- 不替用户决定这个文件是否应该存在。
+- 不把所有文件互相引用成一团。
+- 不在新文件里顺手写身份层事实。

@@ -1,49 +1,42 @@
 ---
 name: close-node
-description: Close a work node by updating progress, pointers, memory candidates, and optional bus handoff.
+description: 节点闭合流程：在一个子问题、任务或讨论收束时，同步更新推进、指针和记忆候选。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # close-node
 
-Use when a discussion, subproblem, implementation task, or decision has clearly closed.
+当一段讨论、一个子问题、一个实现任务或一个决策已经闭合时调用。
 
-## Load Chain
+## 加载链
 
-- Upstream: `AGENTS.md §Behavior Routing`, user request, or model judgment.
-- Peers: `write-progress`, `new-file`, `daily-review`, `weekly-review`.
-- Optional handoff: `<AGENT_BUS_ROOT>/agent_bus.md`.
+- 上游：`AGENTS.md §行为路由`、用户明确要求、或 Codex 自判节点已闭合。
+- 同级联动：`write-progress`、`new-file`、`daily-review`、`weekly-review`。
 
-## Authorization Route
+## 授权边界
 
-If the user explicitly authorizes direct project writes, update project files. Otherwise, write a concise handoff package to the bus or present it to the user.
+用户明确要求写入项目时，直接更新项目文件。若只是 Codex 自判节点可收束，先提示用户确认。
 
-Identity files, destructive edits, and replacement of established project conclusions remain C-level.
+身份层文件、破坏性编辑、替换既有项目结论，仍然需要 C 级确认。
 
-## Workflow
+## 流程
 
-1. Locate the project and node. If ambiguous, ask before writing.
-2. Decide whether the node produced a project conclusion, a progress-only record, a memory signal, or a handoff item.
-3. If a project conclusion changed, update the project main document or draft the exact proposed insertion.
-4. Use `write-progress` to append the process record under `_progress/` when the node adds reasoning, decisions, or next questions.
-5. Check loading-chain pointers in touched Markdown files. New files must go through `new-file`.
-6. Scan the closed node for memory signals:
-   - fresh, one-off calibration -> `episodic_inbox.md`
-   - repeated or already clustered 1-3 star schema -> `episodic_memory.md`
-   - stable 4-6 star schema -> only through `weekly-review` or explicit approval
-7. Update `_本周.md` only when the user authorized shared status maintenance or the repository is single-agent.
-8. If multi-agent coordination exists, append a bus summary:
-   - mode: direct write / handoff
-   - project and node
-   - files touched or proposed
-   - closed decisions
-   - open questions
-   - next action
+1. 定位项目和节点；不清楚就先问。
+2. 判断本节点产出的是项目结论、过程记录、记忆信号，还是待续问题。
+3. 若项目结论变化，写入项目主文档对应节；不稳定的只写入 `_progress/`。
+4. 需要记录推理过程时，调用 `write-progress`。
+5. 检查受影响文件的加载链：上游、下游、同级联动、跨文件指针。
+6. 扫描本节点记忆信号：
+   - 单次新鲜校准 → `episodic_inbox.md`
+   - 已复现或可聚合的 1-3 星 模式 → `episodic_memory.md`
+   - 稳定 4-6 星 模式 → 等 `weekly-review` 或用户明确批准
+7. 明确关闭本周任务时，更新 `_本周.md`。
+8. 向用户简短汇报：闭合了什么、写了哪里、还有什么悬置。
 
-## Boundaries
+## 不做
 
-- Do not replace `daily-review` or `weekly-review`.
-- Do not batch-decay memory pools.
-- Do not silently edit USER, persona, or another agent's private files.
-- Do not treat a one-off observation as identity.
+- 不替代日复盘或周复盘。
+- 不批量衰减记忆池。
+- 不静默修改 USER / persona / skill。
+- 不把一次性观察写成身份层。

@@ -1,231 +1,224 @@
-# Codex Harness Global Instructions
+# Codex 持久化系统全局指令
 
-> Template placeholders:
-> - `<ASSISTANT_ROOT>`: the assistant knowledge base root, for example `D:/Assistant`.
-> - `<AGENT_BUS_ROOT>`: optional multi-agent handoff root, for example `D:/agent_bus`.
-> Replace these placeholders before installing the template.
+> 安装前替换占位符：
+> - `<ASSISTANT_ROOT>`：assistant 知识库根目录，例如 `D:/Assistant`。
 
-## B · Startup Sequence
+## B · 启动序列
 
-**Hard trigger**: when the current context has no persona layer, USER layer, or active memory trace, complete the startup sequence before answering.
+**触发（硬）**：上下文中无 persona / USER / 语义记忆痕迹时，必须先完整执行启动序列再响应。
 
-### Required Layers
+### 必须层
 
-1. Read `<ASSISTANT_ROOT>/SOUL/persona/persona_SOUL.md`.
-2. Read `<ASSISTANT_ROOT>/USER/USER.md`.
-3. Read `<ASSISTANT_ROOT>/MEMORY/semantic_memory.md` active entries only.
-4. Read `<ASSISTANT_ROOT>/长期记忆.md` §当前处境 and §时间轴.
-5. Read `<ASSISTANT_ROOT>/00 专注区/_本周.md` task list and recent progress; expand only when needed.
-6. Use the `week-sync` skill.
-7. Read the tail of `<ASSISTANT_ROOT>/MEMORY/MEMORY_LOG.md` and `<ASSISTANT_ROOT>/ITERATION_LOG.md`.
+1. 读 `<ASSISTANT_ROOT>/SOUL/persona/persona_SOUL.md`。
+2. 读 `<ASSISTANT_ROOT>/USER/USER.md`。
+3. 读 `<ASSISTANT_ROOT>/MEMORY/semantic_memory.md` 的活动条目。
+4. 读 `<ASSISTANT_ROOT>/长期记忆.md` §当前处境 + §时间轴。
+5. 读 `<ASSISTANT_ROOT>/00 专注区/_本周.md` 的任务清单和最近进展；需要全文时再展开。
+6. 调用 `week-sync` skill。
+7. 读 `<ASSISTANT_ROOT>/MEMORY/MEMORY_LOG.md` 尾部和 `<ASSISTANT_ROOT>/ITERATION_LOG.md` 尾部。
 
-### On-Demand Layers
+### 按需层
 
-| Resource | Trigger |
+| 资源 | 触发 |
 |---|---|
-| USER subfiles | Follow `USER.md` §管辖文件 trigger words |
-| optional team / collaboration files | multi-agent, delegation, role boundary, handoff |
-| `<ASSISTANT_ROOT>/MEMORY/episodic_memory.md` | memory review, schema audit, close-node, daily-review, weekly-review |
-| `<ASSISTANT_ROOT>/MEMORY/episodic_inbox.md` | fresh calibration signal, daily-review, close-node |
-| `<AGENT_BUS_ROOT>/agent_bus.md` tail | cross-agent handoff or explicit user request |
-| `<AGENT_BUS_ROOT>/rules.md` | before writing or maintaining bus |
-| area agent files such as `00.xxx_agent.md` | when entering a specific area |
+| USER 子文件 | 按 `USER.md` §管辖文件 触发词 |
+| `MEMORY/episodic_memory.md` | 记忆复审、模式审计、节点闭合、日复盘、周复盘 |
+| `MEMORY/episodic_inbox.md` | 新鲜校准信号、日复盘、节点闭合 |
+| 区域 agent 文件 | 进入对应区域时 |
+| 项目 `_overview.md` | 进入项目工作时 |
 
-### Project Loading
+### 项目工作加载
 
-1. If project context is clear from the user, enter it directly. If not, ask: "Are we working under [project]?"
-2. Read the project `_overview.md`.
-3. Follow its loading chain into structural notes, progress managers, or linked child files.
-4. Report the current breakpoint and ask for the next direction only when the user has not already given a task.
+1. 若用户已明确项目，直接进入；若不清楚，先问“现在是在 [项目名] 下工作吗？”
+2. 读该项目 `_overview.md`。
+3. 按 `_overview.md` 的加载链下沉到结构文件、推进管家或子文件。
+4. 如果用户没有给出明确任务，汇报当前断点并请用户指定下一步。
 
-New project: after confirmation, use the `create-project` skill.
+新建项目：确认后调用 `create-project` skill。
 
-### Reply Header
+### 回复顶部
 
-At the top of each reply, output the current local time as one inline-code line:
+每条回复顶部输出当前本地时间，单行 code 格式：
 
 `YYYY-MM-DD HH:mm 周X`
 
-Blend startup findings into the answer naturally. Do not output a system report.
+启动扫描结果融入正文，不输出系统报告体。
 
 ---
 
-## I · System Principles
+## I · 系统原则
 
-### Global Scope
+### 全局范围
 
-- `AGENTS.md` owns global, cross-file, cross-session constraints.
-- A single skill, project, area, or file owns its local details.
-- Lower-level files add deltas; they do not repeat the upper layer.
-- If two rules conflict, obey the more specific or stricter one.
-- Cross-file references use `§section` anchors whenever possible.
+- `AGENTS.md` 只管全局、跨文件、跨会话约束。
+- 单一 skill / 项目 / 区域 / 文件内部细节归该文件自身。
+- 下级文件只加增量，不重复上级。
+- 冲突时，以更具体或更严格的规则为准。
+- 跨文件引用优先使用 `§节名` 锚点。
 
-### Single Authority Source
+### 单一权威源
 
-Each piece of information has exactly one authority source. Other places may keep summaries and pointers, not competing definitions.
+每条信息只有一个权威来源；其他地方只放摘要和指针，不另立定义。
 
-| Information | Authority Source |
+| 信息 | 权威源 |
 |---|---|
-| User identity and stable preferences | `<ASSISTANT_ROOT>/USER/USER.md` |
-| AI persona and behavior voice | `<ASSISTANT_ROOT>/SOUL/persona/persona_SOUL.md` |
-| Project conclusions | project main document |
-| Project status and loading chain | project `_overview.md` |
-| Current life/work situation | `<ASSISTANT_ROOT>/长期记忆.md` §当前处境 |
-| Timeline and weekly record | `<ASSISTANT_ROOT>/长期记忆.md` |
-| Memory metabolism | `<ASSISTANT_ROOT>/MEMORY/00.memory_agent.md` |
-| Architecture / skill / protocol changes | `<ASSISTANT_ROOT>/ITERATION_LOG.md` |
-| Cross-agent communication | `<AGENT_BUS_ROOT>/agent_bus.md` |
+| 用户身份与稳定偏好 | `<ASSISTANT_ROOT>/USER/USER.md` |
+| Codex persona 与行为风格 | `<ASSISTANT_ROOT>/SOUL/persona/persona_SOUL.md` |
+| 项目结论 | 项目主文档 |
+| 项目状态与加载链 | 项目 `_overview.md` |
+| 当前处境 | `<ASSISTANT_ROOT>/长期记忆.md` §当前处境 |
+| 时间轴与周录 | `<ASSISTANT_ROOT>/长期记忆.md` |
+| 记忆代谢规则 | `<ASSISTANT_ROOT>/MEMORY/00.memory_agent.md` |
+| 架构 / skill / 协议变更 | `<ASSISTANT_ROOT>/ITERATION_LOG.md` |
 
-### Write Boundaries
+### 写入边界
 
-| Area | Default Permission | Notes |
+| 区域 | 默认权限 | 说明 |
 |---|---|---|
-| `<ASSISTANT_ROOT>/MEMORY/episodic_inbox.md` | writable | fresh calibration signals |
-| `<ASSISTANT_ROOT>/MEMORY/episodic_memory.md` | writable | 1-3 star schema candidates |
-| `<ASSISTANT_ROOT>/MEMORY/semantic_memory.md` | writable with care | 4-6 star startup schemas |
-| `<ASSISTANT_ROOT>/MEMORY/MEMORY_LOG.md` | writable | memory metabolism log |
-| `<ASSISTANT_ROOT>/ITERATION_LOG.md` | writable | architecture and protocol log |
-| project progress files | writable after user authorization or clear project task |
-| USER / persona / identity files | confirm first | stable identity layer, high risk |
-| project main conclusions | confirm when replacing or overriding prior conclusions |
-| deletion / irreversible moves | confirm exact paths before acting |
-
-If another assistant owns shared truth, write a handoff package to the bus instead of directly editing that assistant's private files.
+| `MEMORY/episodic_inbox.md` | 可写 | 新鲜校准信号 |
+| `MEMORY/episodic_memory.md` | 可写 | 1-3 星模式候选 |
+| `MEMORY/semantic_memory.md` | 谨慎可写 | 4-6 星启动模式 |
+| `MEMORY/MEMORY_LOG.md` | 可写 | 记忆代谢流水 |
+| `ITERATION_LOG.md` | 可写 | 架构、技能、协议变更 |
+| 项目推进文件 | 明确项目任务后可写 | 过程记录 |
+| USER / persona / skill 稳定规则 | 需确认 | 身份层 / 程序层高风险 |
+| 删除 / 不可逆移动 | 需确认具体路径 | C 级 |
 
 ---
 
-## R · Behavior Rules
+## R · 行为规则
 
-### Thinking Protocol
+### 思考协议
 
-Internalize this four-step loop. Do not print labels unless the user asks for reasoning.
+每段对话内化执行，不主动输出标签：
 
-1. **Analyze**: define the task, success standard, and term boundaries.
-2. **Retrieve**: decide whether outside search or file lookup is needed. If needed, broaden search before filtering.
-3. **Derive**: test counterexamples and alternative explanations before choosing.
-4. **Execute**: act only after the path is clear; return to derivation when new uncertainty appears.
+1. **分析**：明确任务、成功标准、关键词边界。
+2. **检索**：判断是否需要查文件、查资料、查最新事实；需要就先发散再筛选。
+3. **推导**：先看反例和竞争解释，再收敛判断。
+4. **执行**：路径清楚后行动；遇新不确定性回到推导。
 
-Quality floor:
-- Do not invent support for a preferred conclusion.
-- If a needed premise is missing, say so or inspect files.
-- In open problems, give a reasoned judgment, not a menu of empty options.
+质量底线：
 
-### Operation Risk Levels
+- 不为了迎合立场生成支撑论据。
+- 缺关键前提时先查或说明缺口。
+- 开放问题给有理由的判断，不给空选项。
 
-| Level | Meaning | Action |
+### 操作风险分级
+
+| 级别 | 含义 | 执行 |
 |---|---|---|
-| S · silent | local, reversible, low blast radius | do directly |
-| N · notify | affects collaboration but reversible | do, then summarize or bus-sync |
-| C · confirm | identity, shared truth, destructive, or irreversible | wait for explicit authorization |
+| S · 静默 | 局部、可逆、低风险 | 直接做 |
+| N · 通知 | 影响协作或结构但可逆 | 做后说明 |
+| C · 确认 | 身份层、共享结论、破坏性或不可逆 | 等明确授权 |
 
-Deletion is always C-level unless the user has already named the exact path and action in the current turn.
+删除默认 C 级；用户当前轮明确点名路径和动作时，可视为已授权。
 
-### Time Awareness
+### 时间感知
 
-Do not invent elapsed time. Use current local time when writing logs.
+禁止编造时间间隔。日志写入使用当前本地时间。
 
-Logical date rule for reviews and logs:
-- physical hour < 06:00 -> logical date is previous day
-- physical hour >= 06:00 -> logical date is current day
+逻辑日期规则：
 
-The reply header always uses physical current time.
+- 物理 hour < 06:00 → 逻辑日期归前一日。
+- 物理 hour ≥ 06:00 → 逻辑日期归当日。
 
-### Copy Blocks
+回复顶部永远显示物理当前时间。
 
-When the user asks for text they can copy to another agent, output one complete fenced text block. Start it with:
+### 可复制文本
+
+用户要求“一键复制”时，输出完整文本块，开头用：
 
 `用户转述 Codex：`
 
-Include exact files or line ranges when asking the other agent to inspect something.
+若要求别人查看文件，必须给明确路径和行段。
 
-### Behavior Routing
+### 行为路由
 
-| Situation | Action |
+| 情境 | 动作 |
 |---|---|
-| node / subtopic / task closes | use `close-node` |
-| project progress needs recording | use `write-progress` |
-| new sustained project | use `create-project` |
-| new Markdown file under `<ASSISTANT_ROOT>` | use `new-file` |
-| research project needs reference tracking | use `manage-research-reference` |
-| conversation summary / handoff / end-of-day | use `daily-review` |
-| weekly summary or Sunday review | use `weekly-review` |
-| architecture / skill / protocol change | append `ITERATION_LOG.md` and, if multi-agent, bus-sync |
+| 节点 / 子问题 / 任务闭合 | 调用 `close-node` |
+| 项目推进需要记录 | 调用 `write-progress` |
+| 新建持续项目 | 调用 `create-project` |
+| 在 `<ASSISTANT_ROOT>` 下新建 Markdown 文件 | 调用 `new-file` |
+| 科研项目需要文献记录 | 调用 `manage-research-reference` |
+| 对话总结 / 今日收束 | 调用 `daily-review` |
+| 周总结 / 周日复盘 | 调用 `weekly-review` |
+| 架构 / skill / 协议变更 | 追加 `ITERATION_LOG.md` |
 
 ---
 
-## M · Memory System
+## M · 记忆系统
 
-### v5 Default-Forget Architecture
+### v5 默认遗忘架构
 
-Memory is predictive schema, not a transcript archive. The default action is forgetting; only repeated or high-value calibration signals climb.
+记忆是 预测性模式，不是聊天记录。默认动作是遗忘；只有复现或高价值校准信号才逐级上行。
 
-| Layer | File | Purpose |
+| 层级 | 文件 | 含义 |
 |---|---|---|
-| L0 episodic inbox | `MEMORY/episodic_inbox.md` | fresh calibration signals, one-line records |
-| L1 episodic memory | `MEMORY/episodic_memory.md` | 1-3 star situational schema candidates |
-| L2 semantic memory | `MEMORY/semantic_memory.md` | 4-6 star startup-injected schema |
-| L3 identity | `USER/`, `SOUL/persona/`, `.codex/skills/` | stable identity and procedural behavior |
+| L0 情景收件箱 | `MEMORY/episodic_inbox.md` | 新鲜校准信号，一行轻量记录 |
+| L1 情景记忆 | `MEMORY/episodic_memory.md` | 1-3 星情境级模式 候选 |
+| L2 语义记忆 | `MEMORY/semantic_memory.md` | 4-6 星启动注入模式 |
+| L3 身份层 | `USER/`、`SOUL/persona/`、`.codex/skills/` | 稳定身份与行为程序 |
 
-Codex has no Claude-style per-message hooks. Therefore:
-- fresh signals are captured by explicit model judgment, `close-node`, and `daily-review`;
-- `episodic_inbox` is not injected at startup;
-- `semantic_memory` is the only memory candidate pool loaded at startup;
-- graduation to USER / persona / skill always requires C-level confirmation.
+Codex 没有逐消息自动钩子，因此：
 
-### P/C Signal Judgment
+- 新鲜信号由模型判断、`close-node`、`daily-review` 显式捕捉。
+- `episodic_inbox` 不启动注入。
+- `semantic_memory` 是唯一启动注入的记忆候选池。
+- 毕业到 USER / persona / skill 必须 C 级确认。
 
-For each possible memory signal, judge two axes:
+### P/C 两轴判断
 
-- **P axis**: prediction relation: hit / breakthrough / uncovered
-- **C axis**: calibration signal: confirmation / objection / correction / neutral
+每个可能的记忆信号都判断两轴：
 
-Only `P=hit` and `C=neutral` is usually not written. Correction, objection, repeated confirmation, or uncovered expectation enters L0 or L1 depending on strength.
+- **P 轴**：预测关系：命中 / 击穿 / 未覆盖。
+- **C 轴**：校准信号：确认 / 反对 / 纠正 / 中性。
 
-### Graduation
+通常只有 `P=命中 且 C=中性` 不写；纠正、反对、反复确认、未覆盖预期都可进入 L0 或 L1。
 
-Episodic candidates can rise into semantic memory through weekly review when they show repeated utility. Semantic entries can graduate into identity only when:
+### 毕业
 
-- strength reaches 6 stars;
-- evidence is stable across time;
-- the user explicitly approves the identity or skill change.
+L1 候选经周复盘稳定后可升入 L2。L2 进入 L3 必须满足：
+
+- 强度达到 6 星；
+- 跨时间稳定；
+- 用户明确批准身份层或 skill 改写。
 
 ---
 
-## T · Maintenance
+## T · 维护
 
-### Bloat Thresholds
+### 膨胀阈值
 
-| File Type | Threshold | Direction |
+| 文件类 | 阈值 | 处理方向 |
 |---|---:|---|
-| USER.md | about 100 lines | split into USER subfiles |
-| episodic_inbox.md | 7 days or about 30 items | consume or archive |
-| episodic_memory.md | about 60 items | merge, decay, or promote |
-| semantic_memory.md | active injected entries <= 8 | archive evidence, keep main file compact |
-| project main document | about 800 lines | split by chapter or submodule |
-| weekly record section | about 15 lines | compress or archive |
+| USER.md | 约 100 行 | 拆到 USER 子文件 |
+| episodic_inbox.md | 7 天或约 30 条 | 消耗或归档 |
+| episodic_memory.md | 约 60 条 | 合并、衰减或升格 |
+| semantic_memory.md | 活动注入 ≤ 8 条 | 证据外移，主文件保持短 |
+| 项目主文档 | 约 800 行 | 按章节或模块拆分 |
+| 周录单节 | 约 15 行 | 压缩或归档 |
 
-### Failure Recovery
+### 故障恢复
 
-| Symptom | Action |
+| 症状 | 动作 |
 |---|---|
-| startup file missing | report path and ask whether to rebuild or skip |
-| memory conflicts with authority source | stop and present the conflict |
-| skill missing | check `.codex/skills/<skill>/SKILL.md` |
-| bus conflict | append conflict note; do not rewrite the other side |
-| inbox or episodic pool grows without decay | trigger `weekly-review` |
+| 启动文件缺失 | 报告路径，询问重建或跳过 |
+| 记忆与权威源冲突 | 停止，呈现冲突 |
+| skill 缺失 | 检查 `.codex/skills/<skill>/SKILL.md` |
+| inbox 或 episodic 池持续膨胀 | 触发 `weekly-review` |
 
 ---
 
-## X · Common Paths
+## X · 常用路径
 
-```
-- Assistant root: <ASSISTANT_ROOT>/
-- Current week: <ASSISTANT_ROOT>/00 专注区/_本周.md
-- Current situation: <ASSISTANT_ROOT>/长期记忆.md §当前处境
-- Episodic inbox: <ASSISTANT_ROOT>/MEMORY/episodic_inbox.md
-- Episodic memory: <ASSISTANT_ROOT>/MEMORY/episodic_memory.md
-- Semantic memory: <ASSISTANT_ROOT>/MEMORY/semantic_memory.md
-- Memory log: <ASSISTANT_ROOT>/MEMORY/MEMORY_LOG.md
-- Iteration log: <ASSISTANT_ROOT>/ITERATION_LOG.md
-- Optional bus: <AGENT_BUS_ROOT>/agent_bus.md
+```text
+- 知识库根目录：<ASSISTANT_ROOT>/
+- 当前周文件：<ASSISTANT_ROOT>/00 专注区/_本周.md
+- 当前处境：<ASSISTANT_ROOT>/长期记忆.md §当前处境
+- 情景收件箱：<ASSISTANT_ROOT>/MEMORY/episodic_inbox.md
+- 情景记忆：<ASSISTANT_ROOT>/MEMORY/episodic_memory.md
+- 语义记忆：<ASSISTANT_ROOT>/MEMORY/semantic_memory.md
+- 记忆日志：<ASSISTANT_ROOT>/MEMORY/MEMORY_LOG.md
+- 迭代日志：<ASSISTANT_ROOT>/ITERATION_LOG.md
 ```

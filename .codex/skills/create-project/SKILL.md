@@ -1,45 +1,46 @@
 ---
 name: create-project
-description: Create a sustained project container with overview, loading chain, progress area, and optional reference area.
+description: 新建持续项目：建立项目容器、overview、加载链和推进区。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # create-project
 
-Use when a new line of work is expected to continue beyond a single exchange.
+当一条新工作会持续推进、需要长期记录时调用。
 
-## Inputs
+## 输入确认
 
-Confirm:
-- project name
-- project type: research / engineering / writing / operations / other
-- whether the assistant may write inside `<ASSISTANT_ROOT>/01 项目区/`
+先确认：
 
-## Folder Pattern
+- 项目名称
+- 项目类型：研究 / 工程 / 写作 / 事务 / 其他
+- 是否允许写入 `<ASSISTANT_ROOT>/01 项目区/`
 
-```
-<ASSISTANT_ROOT>/01 项目区/<Project Name>/
+## 目录结构
+
+```text
+<ASSISTANT_ROOT>/01 项目区/<项目名>/
 ├── _overview.md
 ├── _progress/
-└── _reference/        # only when needed
+└── _reference/        # 需要文献时再建
 ```
 
-## `_overview.md` Minimum Sections
+## `_overview.md` 最小骨架
 
 ```markdown
 ---
-title: <Project Name>
-type: project-overview
-created: YYYY-MM-DD
-status: active
-upstream:
+标题: <项目名>
+类型: 项目总览
+创建日期: YYYY-MM-DD
+状态: 进行中
+上游:
   - ../00.项目区_agent.md
-downstream:
+下游:
   - _progress/
 ---
 
-# <Project Name>
+# <项目名>
 
 ## 项目定义
 
@@ -52,17 +53,16 @@ downstream:
 ## 待解问题
 ```
 
-## Workflow
+## 流程
 
-1. Create the project folder and `_progress/`.
-2. Write `_overview.md` with explicit upstream and downstream pointers.
-3. If references are needed, use `manage-research-reference`.
-4. Add a short entry to the area index or portfolio file when one exists.
-5. Add the first task to `<ASSISTANT_ROOT>/00 专注区/_本周.md` only with user authorization.
-6. If another assistant owns the shared project area, write a bus package instead of direct files.
+1. 建项目文件夹和 `_progress/`。
+2. 写 `_overview.md`，明确上游和下游。
+3. 若项目需要文献，调用 `manage-research-reference`。
+4. 若项目区有总索引，把项目加入索引。
+5. 得到用户授权时，把第一条任务写入 `00 专注区/_本周.md`。
 
-## Boundaries
+## 不做
 
-- Do not create a project for a one-off answer.
-- Do not invent project conclusions.
-- Do not create USER or persona facts from project setup.
+- 不为一次性问答新建项目。
+- 不编造项目结论。
+- 不把项目设置写成 USER 或 人格层 事实。

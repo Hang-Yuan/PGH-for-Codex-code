@@ -1,36 +1,36 @@
 ---
 name: write-progress
-description: Record project progress as durable reasoning nodes with clear questions, decisions, and next steps.
+description: 写项目推进记录：保留问题承接、推理路径、当前判断和下一步。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # write-progress
 
-Use when project work produces reasoning, decisions, attempts, or next questions that should survive the conversation.
+当项目工作产生推理、决策、尝试或新问题，需要跨会话保留时调用。
 
-## Progress Folder Pattern
+## 推进区结构
 
-```
-<project>/_progress/
+```text
+<项目>/_progress/
 ├── 00_progress_index.md
-└── YYYY-MM-DD_short-topic.md
+└── YYYY-MM-DD_短主题.md
 ```
 
-## Progress Node Template
+## 推进节点模板
 
 ```markdown
 ---
-title: <node title>
-type: progress
-created: YYYY-MM-DD
-project: <project name>
-upstream:
+标题: <节点标题>
+类型: 推进记录
+创建日期: YYYY-MM-DD
+项目: <项目名>
+上游:
   - ../_overview.md
-peers: []
+同级联动: []
 ---
 
-# <node title>
+# <节点标题>
 
 ## 问题承接
 
@@ -43,21 +43,21 @@ peers: []
 ## 下一步
 ```
 
-## Workflow
+## 流程
 
-1. Locate the project and `_overview.md`.
-2. If `_progress/` is missing, create it and add a progress index.
-3. Decide whether to append an existing progress file or create a new one.
-4. Record the reasoning path, not just the final answer.
-5. Use explicit transition markers when useful:
+1. 定位项目和 `_overview.md`。
+2. 缺少 `_progress/` 时创建，并补推进索引。
+3. 判断是追加现有推进文件，还是新建节点文件。
+4. 记录推理路径，不只写最终答案。
+5. 必要时使用转换标记：
    - `**问题承接**`
    - `**开出**`
    - `**本节收束**`
-6. Update `_overview.md` only with stable status and pointers, not full discussion.
-7. Update `_本周.md` only when authorized or in single-agent mode.
+6. `_overview.md` 只更新稳定状态和指针，不塞完整讨论。
+7. 用户授权后再更新 `_本周.md`。
 
-## Boundaries
+## 不做
 
-- Do not bury stable project conclusions only in progress notes.
-- Do not turn every chat message into progress.
-- Do not write personal identity facts here; use memory review and identity confirmation.
+- 不把稳定项目结论只埋在推进记录里。
+- 不把每一句聊天都写成 progress。
+- 不在这里写个人身份事实；走记忆复盘和身份层确认。

@@ -1,42 +1,41 @@
 ---
 name: weekly-review
-description: Weekly review: archive work, metabolize memory candidates, and prepare stable identity changes for approval.
+description: 周复盘：归档本周、代谢记忆候选、提出身份层毕业候选。
 created: 2026-05-07
 updated: 2026-05-07
 ---
 
 # weekly-review
 
-Use when the user asks for a weekly review or when the weekly schedule reaches review time.
+当用户要求周复盘，或到达周复盘时间时调用。
 
-## Workflow
+## 流程
 
-1. Determine the logical week boundary.
-2. Read:
+1. 判定逻辑周界。
+2. 读取：
    - `<ASSISTANT_ROOT>/00 专注区/_本周.md`
-   - relevant project `_overview.md` and `_progress/`
+   - 相关项目 `_overview.md` 和 `_progress/`
    - `MEMORY/episodic_inbox.md`
    - `MEMORY/episodic_memory.md`
    - `MEMORY/semantic_memory.md`
    - `MEMORY/MEMORY_LOG.md`
-3. Summarize the week by project and key realization.
-4. Metabolize memory:
-   - expire weak L0 inbox entries
-   - merge repeated L0 into L1
-   - promote stable L1 into L2
-   - decay unused or contradicted L2
-   - prepare L3 graduation candidates for user approval
-5. Archive the week file when appropriate and create the next week file.
-6. Append `MEMORY_LOG.md` for memory changes.
-7. Append `ITERATION_LOG.md` for protocol or structure changes.
-8. If multi-agent coordination exists, bus-sync weekly decisions and unresolved items.
+3. 按项目和关键认识总结本周。
+4. 代谢记忆：
+   - 过期弱 L0 清理
+   - 重复 L0 合并到 L1
+   - 稳定 L1 升到 L2
+   - 无用或被击穿的 L2 衰减
+   - L3 毕业候选只提出改写草案
+5. 需要时归档本周文件并创建下周文件。
+6. 记忆变化写 `MEMORY_LOG.md`。
+7. 架构或协议变化写 `ITERATION_LOG.md`。
 
-## Graduation Rule
+## 毕业规则
 
-Do not directly edit USER, persona, or skill files just because a memory reaches high confidence. Present the clean proposed rewrite and wait for confirmation.
+记忆高强度不等于自动改 USER、人格层 或 技能。必须提出干净改写稿，等用户确认。
 
-## Boundaries
+## 不做
 
-- Do not treat a busy week as evidence of stable identity.
-- Do not keep low-value one-off signals just because they are recent.
-- Do not overwrite project conclusions during review without checking project authority files.
+- 不把忙碌当作稳定身份证据。
+- 不因为最近就保留低价值一次性信号。
+- 不绕过项目权威源改写项目结论。

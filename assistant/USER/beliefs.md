@@ -1,13 +1,13 @@
 ---
-title: beliefs
-type: user-subfile
-created: 2026-05-07
-status: template
-upstream:
+标题: beliefs
+类型: 用户子文件
+创建日期: 2026-05-07
+状态: 模板
+上游:
   - USER.md
-downstream: []
+下游: []
 ---
 
-# Beliefs
+# 信念与原则
 
-Add stable values and principles here only after confirmation.
+只在确认后写入稳定价值观和长期原则。

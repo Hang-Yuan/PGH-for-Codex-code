@@ -1,12 +1,12 @@
 ---
-title: semantic_memory
-type: memory-pool
-created: 2026-05-07
-status: active
-upstream:
+标题: semantic_memory
+类型: 语义记忆池
+创建日期: 2026-05-07
+状态: 活动
+上游:
   - 00.memory_agent.md
   - episodic_memory.md
-downstream:
+下游:
   - ../USER/USER.md
   - ../SOUL/persona/persona_SOUL.md
   - ../../.codex/skills/
@@ -14,18 +14,18 @@ downstream:
 
 # semantic_memory
 
-4-6 star startup schema. Keep active injected entries compact. Evidence belongs in `_archive/semantic_archive.md`.
+4-6 星启动注入模式。活动条目保持短，证据写入 `_archive/semantic_archive.md`。
 
-## Startup Injection Rules
+## 启动注入规则
 
-- Load active entries only.
-- Default maximum active injection: 8 entries.
-- Do not load archive evidence unless needed.
+- 只读取活动条目。
+- 默认最多注入 8 条。
+- 归档证据按需读取，不随启动常驻。
 
-## Active Entries
+## 活动条目
 
-<!-- Add SM entries here. -->
+<!-- 在这里添加 SM 条目。 -->
 
-## Graduation Candidates
+## 毕业候选
 
-<!-- L3 candidates wait for explicit user approval. -->
+<!-- L3 候选必须等待用户明确确认。 -->
