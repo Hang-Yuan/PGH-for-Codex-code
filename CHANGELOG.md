@@ -1,33 +1,36 @@
 # CHANGELOG
 
-模板版本记录。新版本写在上方。
+Predictive Generative Harness for Codex Code 的模板版本迭代记录。
 
-## v0.1.1 · 2026-05-07 · 单端化 + 全中文模板
+## 版本号规则
 
-### 变更
+- `v5.x.x` 起为 PGH 5.0 新架构。
+- 5.0 之前版本不再作为升级链追溯；旧版用户建议重新部署 5.0。
+- 每次发布只记录公开模板结构、入口协议、初始化流程、hook / skill / assistant 骨架变化。
 
-- 删除跨端通信目录，Codex 公开包不再预设跨端协作或转交给其他智能体。
-- 删除 `.codex/agents/` 占位说明，保持最小可用结构。
-- README、AGENTS、skills、assistant 骨架文件改为中文口径。
-- 安装说明只保留 `<ASSISTANT_ROOT>` 一个占位符。
-- 明确 Codex 版是单端自用：启动加载 + skills + 复盘流程驱动记忆代谢。
+## v5.0.0 · YYYY-MM-DD · PGH 5.0 新起点
 
-### 影响
+5.0 是新起点，不再追溯旧版本历史。
 
-从本版起，公开仓库面向“只使用 Codex Code 的用户”，本模板不内置额外通信区。
+### 结构
 
-## v0.1.0 · 2026-05-07 · 初版 Codex 公共模板
+- 采用全中文 assistant 骨架。
+- `USER/` 初始只保留 `USER.md`；子文件由 §0 初始化访谈后动态生成。
+- `§0` 改为“基础信息 + 故事访谈 + AI 拆解建文件”的首次初始化流程。
+- 新增 `§-1` 部署 / 迁移协议：用户把 GitHub 链接发给 Codex Code 后，由 AI 自己完成部署、迁移、验证和自删。
+- 移除一键部署脚本，不再提供自动脚本升级路径。
 
-### 新增
+### 记忆与项目
 
-- `.codex/AGENTS.md` 全局指令模板。
-- Codex skill 集：`close-node`、`create-project`、`daily-review`、`manage-research-reference`、`new-file`、`week-sync`、`weekly-review`、`write-progress`。
-- `assistant/` 知识库骨架：USER、SOUL、长期记忆、专注区、项目区、阅读区、写作区、MEMORY。
-- v5 记忆文件：`episodic_inbox.md`、`episodic_memory.md`、`semantic_memory.md`。
-- README 安装与自定义说明。
+- 保留 `长期记忆.md`、`00 专注区/`、`01 项目区/`、`MEMORY/`、`SOUL/persona/` 作为最小可运行骨架。
+- MEMORY 文件保留模板和示例条目，不携带任何真实用户历史。
+- 项目区只保留 portfolio agent 模板，真实项目由初始化或后续会话创建。
 
-### 说明
+### Hooks
 
-- Codex 版不包含自动钩子。
-- 启动注入读取 `semantic_memory.md`；episodic 两层通过节点闭合、日复盘、周复盘显式整理。
-- 公开模板使用占位路径，不含私人姓名、真实路径或个人记忆条目。
+- 保留记忆信号、思考协议、会话上下文检查、会话结束整理等 hooks。
+- 新增 `bom_check.py`，用于清理 assistant 目录中的 UTF-8 BOM。
+
+### 同步建议
+
+5.0 之前部署的用户不再支持自动升级路径。请重新部署 PGH 5.0，让 AI 按 `§-1` 检测旧系统并迁移已有内容。

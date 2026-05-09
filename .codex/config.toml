@@ -1,0 +1,50 @@
+# PGH for Codex Code
+# 部署/迁移时由 AI 按 §-1 协议替换：
+# - <CODEX_HOME>：Codex 配置目录，通常是 ~/.codex
+# - <ASSISTANT_ROOT>：assistant 知识库根目录
+# - <PYTHON_BIN>：可用的 Python 3 命令
+
+[features]
+hooks = true
+
+[[hooks.SessionStart]]
+matcher = "compact"
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "Get-Content '<ASSISTANT_ROOT>/SOUL/persona/persona_SOUL.md' -Raw"
+
+[[hooks.SessionStart]]
+matcher = "compact"
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "Get-Content '<ASSISTANT_ROOT>/USER/USER.md' -Raw"
+
+[[hooks.SessionStart]]
+matcher = "compact"
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "Get-Content '<ASSISTANT_ROOT>/MEMORY/semantic_memory.md' -Raw"
+
+[[hooks.UserPromptSubmit]]
+matcher = ""
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "<PYTHON_BIN> \"<CODEX_HOME>/hooks/timesense.py\""
+
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "<PYTHON_BIN> \"<CODEX_HOME>/hooks/memory_signal.py\""
+
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "<PYTHON_BIN> \"<CODEX_HOME>/hooks/thinking_protocol.py\""
+
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "<PYTHON_BIN> \"<CODEX_HOME>/hooks/session_context_check.py\""
+
+[[hooks.UserPromptSubmit]]
+matcher = "晚安|今天就到这里"
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "<PYTHON_BIN> \"<CODEX_HOME>/hooks/session_end.py\""

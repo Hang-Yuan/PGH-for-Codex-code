@@ -1,27 +1,14 @@
 ---
-标题: semantic_archive
-类型: 语义记忆归档
-创建日期: 2026-05-07
-状态: 活动
-上游:
-  - ../00.memory_agent.md
-  - ../semantic_memory.md
-下游: []
+title: semantic_archive.md
+type: memory-archive
+layer: semantic
+target_file: <ASSISTANT_ROOT>/MEMORY/_archive/semantic_archive.md
+created: 2026-05-07
+updated: 2026-05-07
 ---
 
-# semantic_archive
+# Semantic Archive
 
-语义记忆的长证据和演化记录放在这里。
+## 归档示例
 
-## 归档模板
-
-```markdown
-## SM-YYYYMMDD-001 · 标题
-
-- 创建日期：
-- 更新日期：
-- 当前状态：
-- 证据：
-- 演化：
-- 毕业备注：
-```
+- YYYY-MM-DD | archived | [示例] 已失效或被合并的语义条目放在这里。
