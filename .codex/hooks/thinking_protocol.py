@@ -1,15 +1,24 @@
 import json
+import sys
 
-message = (
-    "本轮内化执行四步思考协议，不输出标签：\n"
-    "1. 分析：明确任务、标准、词义边界。\n"
-    "2. 检索：需要事实、文献、最新状态或文件证据时先查。\n"
-    "3. 推导：先看反例和断点，再收敛判断。\n"
-    "4. 执行：路径清楚后动手；遇到新不确定性回到推导。"
+
+def emit(text: str) -> None:
+    sys.stdout.reconfigure(encoding="utf-8")
+    json.dump(
+        {
+            "hookSpecificOutput": {
+                "hookEventName": "UserPromptSubmit",
+                "additionalContext": text,
+            }
+        },
+        sys.stdout,
+        ensure_ascii=False,
+    )
+
+
+emit(
+    "思考协议提醒：本轮回答前内化执行 `.codex/AGENTS.md §R` 的四步流程；"
+    "该文件是思考协议权威源，hook 只负责注入入口，不复制定义。"
+    "①分析目标与边界；②判断是否需要检索，需要则发散检索；③先找反例/断点再收敛推导；④拍板后执行。"
+    " 硬禁止第一句直接认可、未推导就执行、为既定立场补支撑。"
 )
-print(json.dumps({
-    "hookSpecificOutput": {
-        "hookEventName": "UserPromptSubmit",
-        "additionalContext": message,
-    }
-}, ensure_ascii=False))
